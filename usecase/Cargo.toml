@@ -1,0 +1,9 @@
+[package]
+name = "usecase"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+domain = { path = "../domain" }
+anyhow = "1.0.101"
+async-trait = "0.1.89"

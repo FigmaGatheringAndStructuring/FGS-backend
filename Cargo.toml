@@ -1,0 +1,10 @@
+[workspace]
+members = [
+    "api",
+    "domain",
+    "infra",
+    "usecase",
+    "migration",
+]
+
+resolver = "3"
