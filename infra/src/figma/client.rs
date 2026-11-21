@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 use std::io::Cursor;
-
 use anyhow::{Context, Result, bail};
 use async_trait::async_trait;
 use domain::figma::model::{FigmaBoundingBox, FigmaDocument, FigmaPageElement, RenderedImage};
@@ -8,7 +7,6 @@ use domain::figma::repository::FigmaRepository;
 use image::{ImageFormat, RgbaImage, imageops};
 use reqwest::Client;
 use serde::de::DeserializeOwned;
-
 use crate::figma::dto;
 
 const DEFAULT_BASE_URL: &str = "https://api.figma.com/v1";
@@ -80,7 +78,6 @@ impl FigmaClient {
             .map(|element| element.id.as_str())
             .collect::<Vec<_>>()
             .join(",");
-        let scale_value = scale.to_string();
         let url = format!("{}/images/{}", self.base_url, file_key);
 
         let response: dto::ImagesResponse = self
@@ -89,7 +86,7 @@ impl FigmaClient {
                 &[
                     ("ids", ids.as_str()),
                     ("format", "png"),
-                    ("scale", scale_value.as_str()),
+                    ("scale", scale.to_string().as_str()),
                     ("use_absolute_bounds", "true"),
                 ],
             )

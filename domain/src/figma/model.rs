@@ -67,7 +67,6 @@ pub struct FigmaNode {
 }
 
 impl FigmaNode {
-    /// Reads the `absoluteBoundingBox` property returned by the Figma API.
     pub fn absolute_bounding_box(&self) -> Option<FigmaBoundingBox> {
         self.extra
             .get("absoluteBoundingBox")
@@ -137,19 +136,12 @@ pub struct FigmaPageLayout {
     pub file_name: String,
     pub page_id: String,
     pub page_name: String,
-    /// Outermost renderable nodes used to compose the page PNG. This includes
-    /// frames, sections, groups, components and any other top-level scene node.
     pub elements: Vec<FigmaPageElement>,
-    /// Every frame on the page, including frames nested inside sections and
-    /// groups. This is informational; rendering uses `elements`.
     pub frames: Vec<FigmaPageElement>,
     pub bounding_box: FigmaBoundingBox,
 }
 
 impl FigmaPageLayout {
-    /// Collects the top-level render units of a page, all frames (including
-    /// frames nested inside sections/groups), and computes the combined
-    /// bounding box of the render units.
     pub fn from_page(document: &FigmaDocument, page: &FigmaNode) -> Result<Self> {
         let elements = collect_elements(&page.children);
         let frames = collect_frames(&page.children);

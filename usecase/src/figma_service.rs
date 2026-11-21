@@ -1,5 +1,4 @@
 use std::sync::Arc;
-
 use anyhow::{Context, Result};
 use async_trait::async_trait;
 use domain::figma::model::{FigmaDocument, FigmaLink, FigmaNode, FigmaPageLayout, RenderedImage};
