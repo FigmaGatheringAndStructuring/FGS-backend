@@ -23,6 +23,16 @@ pub struct NodeEntry {
     pub document: FigmaNode,
 }
 
+#[derive(Debug, Deserialize)]
+pub struct ImagesResponse {
+    #[serde(default)]
+    pub err: Option<String>,
+    #[serde(default)]
+    pub images: HashMap<String, Option<String>>,
+    #[serde(default)]
+    pub status: Option<u16>,
+}
+
 #[derive(Debug, Clone, Deserialize)]
 pub struct FigmaNode {
     pub id: String,
