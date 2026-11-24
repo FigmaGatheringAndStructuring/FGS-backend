@@ -1,9 +1,6 @@
 services:
   api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: fgs-backend:latest
+    image: janghanul090801/fgs-backend:latest
     ports:
       - "${PORT:-8000}:8000"
     environment:

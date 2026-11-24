@@ -9,7 +9,7 @@ use serde::de::DeserializeOwned;
 use std::collections::HashMap;
 use std::io::Cursor;
 
-const DEFAULT_BASE_URL: &str = "https://api.figma.com/v1";
+pub(crate) const DEFAULT_BASE_URL: &str = "https://api.figma.com/v1";
 const RENDER_BATCH_SIZE: usize = 100;
 const MAX_RENDER_PIXELS: u64 = 32_000_000;
 
