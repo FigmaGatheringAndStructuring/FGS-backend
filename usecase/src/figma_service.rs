@@ -1,9 +1,9 @@
-use std::sync::Arc;
 use anyhow::{Context, Result};
 use async_trait::async_trait;
-use domain::figma::model::{FigmaDocument, FigmaLink, FigmaNode, FigmaPageLayout, RenderedImage};
+use domain::figma::model::{FigmaLink, FigmaNode, FigmaPageLayout, RenderedImage};
 use domain::figma::repository::FigmaRepository;
 use domain::figma::usecase::FigmaUseCase;
+use std::sync::Arc;
 
 pub struct FigmaService {
     repository: Arc<dyn FigmaRepository>,
@@ -56,13 +56,6 @@ fn contains_node(node: &FigmaNode, node_id: &str) -> bool {
 
 #[async_trait]
 impl FigmaUseCase for FigmaService {
-    async fn get_element(&self, link: &FigmaLink) -> anyhow::Result<FigmaDocument> {
-        match link.node_id.as_deref() {
-            Some(node_id) => self.repository.fetch_node(&link.file_key, node_id).await,
-            None => self.repository.fetch_file(&link.file_key).await,
-        }
-    }
-
     async fn get_page(&self, link: &FigmaLink) -> anyhow::Result<FigmaPageLayout> {
         self.load_page(link).await
     }

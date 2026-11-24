@@ -1,21 +1,13 @@
 mod handlers;
 mod routes;
 mod state;
-
-use std::sync::Arc;
-
 use crate::routes::{figma, health};
+use crate::state::AppState;
 use axum::Router;
-use domain::figma::usecase::FigmaUseCase;
 use infra::figma::FigmaClient;
 use serde::{Deserialize, Serialize};
+use std::sync::Arc;
 use usecase::FigmaService;
-use crate::state::AppState;
-
-#[derive(Debug, Deserialize)]
-struct FigmaElementQuery {
-    url: String,
-}
 
 #[derive(Debug, Deserialize)]
 struct FigmaPageQuery {
@@ -41,7 +33,7 @@ async fn main() -> anyhow::Result<()> {
         .map_err(|_| anyhow::anyhow!("FIGMA_TOKEN environment variable is required"))?;
     let client = Arc::new(FigmaClient::new(token));
 
-    let state = AppState{
+    let state = AppState {
         figma_service: Arc::new(FigmaService::new(client)),
     };
 

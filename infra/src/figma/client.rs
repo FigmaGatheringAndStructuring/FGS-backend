@@ -1,5 +1,4 @@
-use std::collections::HashMap;
-use std::io::Cursor;
+use crate::figma::dto;
 use anyhow::{Context, Result, bail};
 use async_trait::async_trait;
 use domain::figma::model::{FigmaBoundingBox, FigmaDocument, FigmaPageElement, RenderedImage};
@@ -7,7 +6,8 @@ use domain::figma::repository::FigmaRepository;
 use image::{ImageFormat, RgbaImage, imageops};
 use reqwest::Client;
 use serde::de::DeserializeOwned;
-use crate::figma::dto;
+use std::collections::HashMap;
+use std::io::Cursor;
 
 const DEFAULT_BASE_URL: &str = "https://api.figma.com/v1";
 const RENDER_BATCH_SIZE: usize = 100;

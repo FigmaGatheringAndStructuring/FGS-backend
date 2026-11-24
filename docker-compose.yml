@@ -1,0 +1,13 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: fgs-backend:latest
+    ports:
+      - "${PORT:-8000}:8000"
+    environment:
+      HOST: 0.0.0.0
+      PORT: "8000"
+      FIGMA_TOKEN: ${FIGMA_TOKEN:?FIGMA_TOKEN must be set (add it to .env)}
+    restart: unless-stopped

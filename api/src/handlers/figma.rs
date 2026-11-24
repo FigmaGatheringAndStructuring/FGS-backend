@@ -5,10 +5,10 @@ use axum::body::Body;
 use axum::extract::{Query, State};
 use axum::http::{HeaderValue, StatusCode, header};
 use axum::response::Response;
-use domain::figma::model::{FigmaDocument, FigmaLink, FigmaPageLayout};
+use domain::figma::model::{FigmaLink, FigmaPageLayout};
 use domain::figma::usecase::FigmaUseCase;
 
-use crate::{ErrorResponse, FigmaElementQuery, FigmaPageQuery, FigmaRenderQuery};
+use crate::{ErrorResponse, FigmaPageQuery, FigmaRenderQuery};
 
 type ApiError = (StatusCode, Json<ErrorResponse>);
 
@@ -28,19 +28,6 @@ fn bad_gateway(error: impl ToString) -> ApiError {
             error: error.to_string(),
         }),
     )
-}
-
-pub async fn get_figma_element(
-    State(service): State<Arc<dyn FigmaUseCase>>,
-    Query(query): Query<FigmaElementQuery>,
-) -> Result<Json<FigmaDocument>, ApiError> {
-    let link = FigmaLink::parse(&query.url).map_err(bad_request)?;
-
-    service
-        .get_element(&link)
-        .await
-        .map(Json)
-        .map_err(bad_gateway)
 }
 
 pub async fn get_figma_page(

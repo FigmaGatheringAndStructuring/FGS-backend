@@ -1,7 +1,7 @@
 # AGENTS.md
 
 Rust Cargo workspace backend (Axum + SeaORM) split into clean-architecture layers.
-The Figma element-fetch feature is implemented; `migration` is still a stub.
+The Figma page/render feature is implemented; `migration` is still a stub.
 
 ## Layout and dependency direction
 
@@ -31,7 +31,9 @@ All crates use Rust edition 2024 / resolver 3.
 - Check everything: `cargo check --workspace --all-targets` (requires the toolchain update above)
 - Check without `migration`: `cargo check -p api -p domain -p infra -p usecase --all-targets`
 - Run server: `cargo run -p api` (Axum on `HOST`/`PORT`, default `127.0.0.1:8000`)
-- Fetch an element: `curl "http://127.0.0.1:8000/api/figma/element?url=<url-encoded-figma-link>"`
+- Build image: `docker build -t fgs-backend .`
+- Run container: `docker run --rm -p 8000:8000 -e FIGMA_TOKEN=<token> fgs-backend`
+- Compose up: `docker compose up --build` (reads `FIGMA_TOKEN` from `.env`)
 - Inspect a page layout/bounding box: `curl "http://127.0.0.1:8000/api/figma/page?url=<url-encoded-figma-link>"`
 - Render a page PNG: `curl "http://127.0.0.1:8000/api/figma/page/render?url=<url-encoded-figma-link>&scale=1" -o page.png`
 - Test without `migration`: `cargo test -p domain -p usecase -p infra -p api`

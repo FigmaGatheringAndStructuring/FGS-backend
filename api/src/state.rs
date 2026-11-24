@@ -1,8 +1,8 @@
-use std::sync::Arc;
-use domain::figma::usecase::FigmaUseCase;
 use axum::extract::FromRef;
+use domain::figma::usecase::FigmaUseCase;
+use std::sync::Arc;
 
-#[derive(FromRef,Clone)]
+#[derive(FromRef, Clone)]
 pub struct AppState {
     pub figma_service: Arc<dyn FigmaUseCase>,
 }
