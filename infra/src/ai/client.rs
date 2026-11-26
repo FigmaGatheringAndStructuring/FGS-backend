@@ -1,10 +1,9 @@
 use crate::ai::dto;
 use anyhow::{Context, bail};
 use async_trait::async_trait;
-use domain::ai::model::{AiRequest, AiResult, Usage};
-use domain::ai::usecase::AiUseCase;
+use domain::ai::model::{AiResult, Usage};
+use domain::figma::model::FigmaPageLayout;
 use reqwest::Client;
-use crate::ai::dto::GenerateRequest;
 
 const DEFAULT_BASE_URL: &str = "https://fgs-ai.juyoungk09.dev";
 
@@ -27,14 +26,19 @@ impl AiClient {
         self.base_url = base_url.into();
         self
     }
+}
 
-    async fn generate(&self, body: &GenerateRequest<'_>) -> anyhow::Result<AiResult> {
+#[async_trait]
+impl domain::ai::client::AiClient for AiClient {
+    async fn generate(&self, layout: &FigmaPageLayout, image: &str) -> anyhow::Result<AiResult> {
+        let body = dto::GenerateRequest { layout, image };
         let url = format!("{}/generate", self.base_url.trim_end_matches('/'));
+
         let response = self
             .http
             .post(url)
-            // .header("X-API-Key", &self.api_key)
             .json(&body)
+            // .header("X-API-Key", &self.api_key)
             .send()
             .await
             .context("failed to call the AI server")?;

@@ -1,11 +1,4 @@
-use crate::figma::model::FigmaPageLayout;
 use serde::{Deserialize, Serialize};
-
-#[derive(Serialize, Deserialize)]
-pub struct AiRequest {
-    pub layout: FigmaPageLayout,
-    pub image: String,
-}
 
 #[derive(Serialize, Deserialize)]
 pub struct Usage {

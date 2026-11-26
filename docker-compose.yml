@@ -7,4 +7,6 @@ services:
       HOST: 0.0.0.0
       PORT: "8000"
       FIGMA_TOKEN: ${FIGMA_TOKEN:?FIGMA_TOKEN must be set (add it to .env)}
+      AI_API_KEY: ${AI_API_KEY:-}
+      AI_BASE_URL: ${AI_BASE_URL:-https://fgs-ai.juyoungk09.dev}
     restart: unless-stopped

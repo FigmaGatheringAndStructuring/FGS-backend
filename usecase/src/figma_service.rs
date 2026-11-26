@@ -61,10 +61,21 @@ impl FigmaUseCase for FigmaService {
     }
 
     async fn render_page(&self, link: &FigmaLink, scale: f64) -> anyhow::Result<RenderedImage> {
-        let page = self.load_page(link).await?;
+        let (_, image) = self.get_page_and_render(link, scale).await?;
+        Ok(image)
+    }
 
-        self.repository
+    async fn get_page_and_render(
+        &self,
+        link: &FigmaLink,
+        scale: f64,
+    ) -> anyhow::Result<(FigmaPageLayout, RenderedImage)> {
+        let page = self.load_page(link).await?;
+        let image = self
+            .repository
             .render_elements(&link.file_key, &page.elements, &page.bounding_box, scale)
-            .await
+            .await?;
+
+        Ok((page, image))
     }
 }

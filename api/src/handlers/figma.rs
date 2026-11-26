@@ -1,5 +1,7 @@
 use std::sync::Arc;
 
+use crate::handlers::error::{ApiError, bad_gateway, bad_request};
+use crate::{ErrorResponse, FigmaPageQuery, FigmaRenderQuery};
 use axum::Json;
 use axum::body::Body;
 use axum::extract::{Query, State};
@@ -7,28 +9,6 @@ use axum::http::{HeaderValue, StatusCode, header};
 use axum::response::Response;
 use domain::figma::model::{FigmaLink, FigmaPageLayout};
 use domain::figma::usecase::FigmaUseCase;
-
-use crate::{ErrorResponse, FigmaPageQuery, FigmaRenderQuery};
-
-type ApiError = (StatusCode, Json<ErrorResponse>);
-
-fn bad_request(error: impl ToString) -> ApiError {
-    (
-        StatusCode::BAD_REQUEST,
-        Json(ErrorResponse {
-            error: error.to_string(),
-        }),
-    )
-}
-
-fn bad_gateway(error: impl ToString) -> ApiError {
-    (
-        StatusCode::BAD_GATEWAY,
-        Json(ErrorResponse {
-            error: error.to_string(),
-        }),
-    )
-}
 
 pub async fn get_figma_page(
     State(service): State<Arc<dyn FigmaUseCase>>,

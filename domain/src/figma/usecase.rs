@@ -7,4 +7,10 @@ pub trait FigmaUseCase: Send + Sync {
     async fn get_page(&self, link: &FigmaLink) -> anyhow::Result<FigmaPageLayout>;
 
     async fn render_page(&self, link: &FigmaLink, scale: f64) -> anyhow::Result<RenderedImage>;
+
+    async fn get_page_and_render(
+        &self,
+        link: &FigmaLink,
+        scale: f64,
+    ) -> anyhow::Result<(FigmaPageLayout, RenderedImage)>;
 }
